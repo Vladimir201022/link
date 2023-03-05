@@ -42,17 +42,14 @@ def main():
     args = parser.parse_args()
     parse_url = urlparse(args.url)
     url_without_protocol = f"{parse_url.netloc}{parse_url.path}"
-
+    
+try:
     if is_bitlink(web_token, url_without_protocol):
-        try:
-            print(count_clicks(web_token, url_without_protocol))
-        except HTTPError as error:
-            exit(f"Ошибка при подсчете кликов{error}")
+        print(count_clicks(web_token, url_without_protocol))
     else:
-        try:
-            print(shorten_link(web_token, args.url))
-        except HTTPError as error:
-            exit(f"Проверьте ссылку,ошибка{error}")
+        print(shorten_link(web_token, args.url))               
+except HTTPError as error:
+    print(f"Проверьте ссылку,ошибка{error}")
 
 
 if __name__ == "__main__":
